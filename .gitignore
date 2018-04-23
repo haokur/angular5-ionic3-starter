@@ -4,3 +4,5 @@ package-lock.json
 www
 plugins
 platforms
+
+.DS_Store
