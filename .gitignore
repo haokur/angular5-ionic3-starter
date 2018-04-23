@@ -6,3 +6,4 @@ plugins
 platforms
 
 .DS_Store
+.tmp

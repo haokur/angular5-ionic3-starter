@@ -30,7 +30,7 @@
     "zone.js": "0.8.18"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "3.1.0",
+    "@ionic/app-scripts": "3.1.9",
     "typescript": "2.4.2"
   },
   "description": "基于 angualr5 + ionic3 + cordova 项目初始化"
