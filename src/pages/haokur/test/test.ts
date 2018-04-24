@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { NavController, NavParams, Events, LoadingController, ToastController } from "ionic-angular";
 
 @Component({
   selector: "test",
@@ -8,7 +7,7 @@ import { NavController, NavParams, Events, LoadingController, ToastController } 
 
 export class TestPage {
 
-  constructor(){
+  constructor() {
     console.log('测试页面')
   }
 }

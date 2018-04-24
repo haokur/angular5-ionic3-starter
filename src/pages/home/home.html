@@ -7,8 +7,11 @@
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.123
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <hello-world></hello-world>
+  {{dateNow|dateFormat:'yyyy-MM-dd hh:mm:ss'}}
+  <p>{{dateNow|dateFormat:'yyyy年MM月dd hh时mm分ss秒'}}</p>
+  <p>{{'2017-01-28'|dateFormat:'yyyy年MM月dd hh时mm分ss秒'}}</p>
+
+
+  <div highlight>click 高亮</div>
 </ion-content>

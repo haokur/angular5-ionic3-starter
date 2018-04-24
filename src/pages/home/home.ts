@@ -7,8 +7,14 @@ import { NavController } from 'ionic-angular';
 })
 export class HomePage {
 
+  dateNow: Date;
+
   constructor(public navCtrl: NavController) {
 
+  }
+
+  ngOnInit() {
+    this.dateNow = new Date()
   }
 
 }

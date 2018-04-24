@@ -1,8 +1,13 @@
 import { NgModule } from "@angular/core";
 import { IonicPageModule, IonicModule } from "ionic-angular";
 
+import { ComponentsModule } from "../../components/components.module";
+import { PipesModule } from "../../pipes/pipes.module";
+import { DirectivesModule } from "../../directives/directives.module";
+
 import { TestPage } from '../../pages/haokur/test/test'
 import { HomePage } from "../../pages/home/home";
+
 
 const Pages = [
   TestPage,
@@ -12,6 +17,9 @@ const Pages = [
 @NgModule({
   imports: [
     IonicModule,
+    ComponentsModule,
+    DirectivesModule,
+    PipesModule,
     IonicPageModule.forChild(TestPage),
     IonicPageModule.forChild(HomePage),
   ],
