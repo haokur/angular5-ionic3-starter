@@ -14,10 +14,10 @@ export const REQUEST_HEADER = {
 let api_root = '' // api请求根路径
 
 if (ENV === 'devlopment') {
-  api_root = "http://haokur.com/api/";
+  api_root = "https://news-at.zhihu.com/api/";
 }
 else if (ENV === 'production') {
-  api_root = "http://haokur.com/api/";
+  api_root = "https://news-at.zhihu.com/api/";
 }
 
 export const API_ROOT = api_root

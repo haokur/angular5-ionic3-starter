@@ -7,6 +7,7 @@ import { DirectivesModule } from "../../directives/directives.module";
 
 import { TestPage } from '../../pages/haokur/test/test'
 import { HomePage } from "../../pages/home/home";
+import { ApiService } from "../../providers/api.service";
 
 
 const Pages = [
@@ -25,7 +26,7 @@ const Pages = [
   ],
   exports: [...Pages],
   declarations: [...Pages],
-  providers: []
+  providers: [ApiService]
 })
 
 export class HaokurModule { }

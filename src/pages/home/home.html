@@ -14,4 +14,10 @@
 
 
   <div highlight>click 高亮</div>
+
+  <ul>
+    <li *ngFor="let item of imgList">
+      <img [src]="item" alt="">
+    </li>
+  </ul>
 </ion-content>
