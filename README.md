@@ -15,6 +15,11 @@ npm install
 npm start
 ```
 
+## 测试api
+
+- [知乎日报api](https://github.com/izzyleung/ZhihuDailyPurify/wiki/知乎日报-API-分析)
+- [拿着api去玩](http://gank.io/api)
+
 ## 环境
 
 - angular 5.0.0
