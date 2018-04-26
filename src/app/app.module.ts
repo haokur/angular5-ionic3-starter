@@ -12,6 +12,9 @@ import { APP_CONFIG } from '../config'
 // users-module
 import { UsersModule } from './users-module'
 
+// store
+import { STORE } from '../store/index'
+
 @NgModule({
   declarations: [
     MyApp,
@@ -20,6 +23,7 @@ import { UsersModule } from './users-module'
     BrowserModule,
     HttpModule,
     IonicModule.forRoot(MyApp, APP_CONFIG),
+    ...STORE,
     ...UsersModule,
   ],
   bootstrap: [IonicApp],
