@@ -15,11 +15,7 @@
 
   <div highlight>click 高亮</div>
 
-  <ul>
-    <li *ngFor="let item of imgList">
-      <img [src]="item" alt="">
-    </li>
-  </ul>
+
 
 
   <button (click)="increment()">Increment</button>
@@ -27,4 +23,15 @@
   <button (click)="decrement()">Decrement</button>
 
   <button (click)="reset()">Reset Counter</button>
+
+  <div>
+    Name: {{userInfo$|async}}
+    <hello-world [userInfo]="userInfo$|async"></hello-world>
+  </div>
+
+  <ul>
+    <li *ngFor="let item of imgList">
+      <img [src]="item" alt="">
+    </li>
+  </ul>
 </ion-content>

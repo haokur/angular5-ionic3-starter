@@ -4,12 +4,8 @@ import { ApiService } from '../../providers/api.service';
 
 import { Store } from '@ngrx/store';
 import { Observable } from "rxjs/Rx";
-import { GetterService } from '../../store/modules/counter/counter.getter';
-import { counterState } from '../../store/modules/counter/counter.state';
-import { CounterTypes } from '../../store/modules/counter/counter.type';
-// import { INCREMENT, DECREMENT, RESET } from '../../store/reducers/counter';
-// import { AppState } from '../../store/state';
-// import { GetterService } from '../../store/getters';
+import { counterState, CounterTypes } from '../../store/modules/counter/counter';
+import { StoreService } from '../../store/store.service';
 
 @Component({
   selector: 'page-home',
@@ -18,7 +14,7 @@ import { CounterTypes } from '../../store/modules/counter/counter.type';
 export class HomePage {
 
   count$: any;
-  // count$:Observable<number>;
+  userInfo$: any;
 
   dateNow: Date;
   imgList: Array<String> = []
@@ -26,9 +22,10 @@ export class HomePage {
   constructor(
     public api: ApiService,
     private store: Store<counterState>,
-    private stateGetter: GetterService,
+    private stateGetter: StoreService,
   ) {
     this.count$ = stateGetter.getShopCartNum$()
+    this.userInfo$ = stateGetter.getUserInfo$()
   }
 
   ngOnInit() {

@@ -7,6 +7,7 @@ import { NavController } from 'ionic-angular';
 })
 export class HelloWorldComponent {
   @Input() amount;
+  @Input() userInfo;
   @Output() onMinus = new EventEmitter<any>();
 
   constructor(

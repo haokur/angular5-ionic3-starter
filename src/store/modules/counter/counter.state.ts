@@ -1,9 +1,11 @@
+// interface
+export interface ICounter {
+  num: number;
+}
 
-/**
- * state
- */
+// state
 export interface counterState {
-  num: number | 0;
+  num: number;
 }
 
 export const initCounterState: counterState = {

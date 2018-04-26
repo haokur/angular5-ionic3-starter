@@ -1,9 +1,19 @@
 
+// types + actions
+
 /**
- * action
+ * types
+ */
+export enum CounterTypes {
+  INCREMENT = '[Counter] INCREMENT',
+  DECREMENT = '[Counter] DECREMENT',
+  RESET = '[Counter] RESET',
+}
+
+/**
+ * actions
  */
 import { Action } from '@ngrx/store';
-import { CounterTypes } from './counter.type';
 
 // 增加1 或者 多
 export class IncrementCounter implements Action {

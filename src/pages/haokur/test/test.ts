@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { AppState } from "../../../store";
-import { GetterService } from "../../../store/modules/counter/counter.getter";
+import { StoreService } from "../../../store/store.service";
 
 @Component({
   selector: "test",
@@ -14,7 +14,7 @@ export class TestPage {
 
   constructor(
     private store:Store<AppState>,
-    private stateGetter:GetterService
+    private stateGetter:StoreService
   ) {
     console.log('测试页面')
     this.count$ = stateGetter.getShopCartNum$()

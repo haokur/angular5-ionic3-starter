@@ -1,17 +1,19 @@
 
 import { StoreModule } from '@ngrx/store'
 
-import { counterReducer } from './modules/counter/counter.reducer'
-import { ICounter } from './modules/counter/counter.interface'
+import { ICounter, counterReducer } from './modules/counter/counter'
+import { userReducer, userState, IUser } from './modules/user/user';
 
 // reducer 集合
 export const AppReducers = {
   count: counterReducer,
+  user: userReducer,
 };
 
 // state 集合
 export interface AppState {
-  count: ICounter
+  count: ICounter,
+  user: IUser
 }
 
 // store module 

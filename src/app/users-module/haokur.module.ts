@@ -8,9 +8,7 @@ import { DirectivesModule } from "../../directives/directives.module";
 import { TestPage } from '../../pages/haokur/test/test'
 import { HomePage } from "../../pages/home/home";
 import { ApiService } from "../../providers/api.service";
-import { GetterService } from "../../store/modules/counter/counter.getter";
-// import { GetterService } from "../../store/getters";
-
+import { StoreService } from "../../store/store.service";
 
 const Pages = [
   TestPage,
@@ -28,7 +26,7 @@ const Pages = [
   ],
   exports: [...Pages],
   declarations: [...Pages],
-  providers: [ApiService, GetterService]
+  providers: [ApiService, StoreService]
 })
 
 export class HaokurModule { }
