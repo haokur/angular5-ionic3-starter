@@ -14,6 +14,7 @@ import { UsersModule } from './users-module'
 
 // store
 import { STORE } from '../store/index'
+// console.log(STORE)
 
 @NgModule({
   declarations: [

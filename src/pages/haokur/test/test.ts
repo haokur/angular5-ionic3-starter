@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
-import { AppState } from "../../../store/state";
 import { Store } from "@ngrx/store";
-import { GetterService } from "../../../store/getters";
+import { AppState } from "../../../store";
+import { GetterService } from "../../../store/modules/counter/counter.getter";
 
 @Component({
   selector: "test",

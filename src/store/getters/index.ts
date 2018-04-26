@@ -1,6 +1,7 @@
 /**
  * 状态管理服务
  */
+/*
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
@@ -25,3 +26,4 @@ export class GetterService {
   }
 
 }
+*/

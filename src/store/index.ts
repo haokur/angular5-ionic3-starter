@@ -1,16 +1,18 @@
-import { StoreModule, combineReducers, ReducerManagerDispatcher } from '@ngrx/store'
 
-import { Reducers } from './reducers'
+import { StoreModule } from '@ngrx/store'
 
-// const hasCombinedReducers = combineReducers(Reducers);
+import { counterReducer } from './modules/counter/counter.reducer'
+import { ICounter } from './modules/counter/counter.interface'
 
-// console.log(Reducers)
-// console.log(hasCombinedReducers)
+// reducer 集合
+export const AppReducers = {
+  count: counterReducer,
+};
 
-// export function reducer(state: any, action: any) {
-//   return hasCombinedReducers(state, action);
-// }
+// state 集合
+export interface AppState {
+  count: ICounter
+}
 
-let modules = [StoreModule.forRoot(Reducers)];
-
-export const STORE = modules;
+// store module 
+export const STORE = [StoreModule.forRoot(AppReducers)];

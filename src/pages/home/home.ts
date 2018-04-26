@@ -4,9 +4,12 @@ import { ApiService } from '../../providers/api.service';
 
 import { Store } from '@ngrx/store';
 import { Observable } from "rxjs/Rx";
-import { INCREMENT, DECREMENT, RESET } from '../../store/reducers/counter';
-import { AppState } from '../../store/state';
-import { GetterService } from '../../store/getters';
+import { GetterService } from '../../store/modules/counter/counter.getter';
+import { counterState } from '../../store/modules/counter/counter.state';
+import { CounterTypes } from '../../store/modules/counter/counter.type';
+// import { INCREMENT, DECREMENT, RESET } from '../../store/reducers/counter';
+// import { AppState } from '../../store/state';
+// import { GetterService } from '../../store/getters';
 
 @Component({
   selector: 'page-home',
@@ -14,7 +17,7 @@ import { GetterService } from '../../store/getters';
 })
 export class HomePage {
 
-  count$;
+  count$: any;
   // count$:Observable<number>;
 
   dateNow: Date;
@@ -22,7 +25,7 @@ export class HomePage {
 
   constructor(
     public api: ApiService,
-    private store: Store<AppState>,
+    private store: Store<counterState>,
     private stateGetter: GetterService,
   ) {
     this.count$ = stateGetter.getShopCartNum$()
@@ -57,15 +60,16 @@ export class HomePage {
   }
 
   increment() {
-    this.store.dispatch({ type: INCREMENT });
+    console.log(this.count$)
+    this.store.dispatch({ type: CounterTypes.INCREMENT });
   }
 
   decrement() {
-    this.store.dispatch({ type: DECREMENT });
+    this.store.dispatch({ type: CounterTypes.DECREMENT });
   }
 
   reset() {
-    this.store.dispatch({ type: RESET });
+    this.store.dispatch({ type: CounterTypes.RESET });
   }
 
 
