@@ -1,5 +1,8 @@
+declare var process;
 
-import { ENV } from './env'
+process.env.NODE_ENV = 'devlopment'
+
+const ENV = process.env.NODE_ENV
 
 // 请求超时时间,单位为毫秒
 export const REQUEST_TIMEOUT = 15000;
@@ -14,7 +17,8 @@ export const REQUEST_HEADER = {
 let api_root = '' // api请求根路径
 
 if (ENV === 'devlopment') {
-  api_root = "https://news-at.zhihu.com/api/";
+  // api_root = "https://news-at.zhihu.com/api/";
+  api_root = '/'
 }
 else if (ENV === 'production') {
   api_root = "https://news-at.zhihu.com/api/";

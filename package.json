@@ -5,10 +5,24 @@
   "homepage": "https://github.com/haokur/ng5-ionic3-starter",
   "private": true,
   "scripts": {
-    "start": "ionic-app-scripts serve",
+    "start": "ionic-app-scripts serve NODE_ENV=development",
+    "build": "bnr build",
     "clean": "ionic-app-scripts clean",
-    "build": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint"
+  },
+  "betterScripts": {
+    "dev": {
+      "command": "ionic-app-scripts serve",
+      "env": {
+        "NODE_ENV": "dev"
+      }
+    },
+    "build": {
+      "command": "ionic-app-scripts build --prod",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
   },
   "dependencies": {
     "@angular/common": "5.0.0",
@@ -33,6 +47,7 @@
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.1.9",
+    "better-npm-run": "0.1.0",
     "typescript": "2.4.2"
   },
   "description": "基于 angualr5 + ionic3 + cordova 项目初始化"

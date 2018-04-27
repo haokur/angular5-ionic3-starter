@@ -1,7 +1,7 @@
 import { Pipe } from "@angular/core";
 
-import { 
-    format
+import {
+  format
 } from '../utils/date'
 
 @Pipe({
@@ -9,6 +9,8 @@ import {
 })
 export class dateFormat {
   transform(value: any, style: string, ...args) {
-    return format(value, style);
+    if (value) {
+      return format(value, style);
+    }
   }
 }

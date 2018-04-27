@@ -1,5 +1,11 @@
 {
   "name": "ng5-ionic3-starter",
   "app_id": "",
-  "type": "ionic-angular"
+  "type": "ionic-angular",
+  "proxies": [
+    {
+      "path": "/",
+      "proxyUrl": "https://news-at.zhihu.com/api/"
+    }
+  ]
 }
