@@ -13,15 +13,16 @@ import {
 import jsonpService from 'jsonp';
 
 import { API_ROOT, REQUEST_HEADER, REQUEST_TIMEOUT } from "../config/constants";
+import { HaokurBasePage } from "../pages/default/haokur-base/haokur-base";
 
 @Injectable()
-export class ApiService {
+export class ApiService extends HaokurBasePage {
   private apiUrl = API_ROOT;
   private headers: any;
   public navCtrl: any;
 
   // 请求体忽略参数
-  private reqIgnore = ['ext', 'act', '_withToken', '_withWait']
+  private reqIgnore = ['act', '_withToken', '_withWait']
 
   constructor(
     public http: Http,
@@ -29,6 +30,7 @@ export class ApiService {
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
   ) {
+    super();
     this.headers = new Headers(REQUEST_HEADER);
   }
 
@@ -229,14 +231,12 @@ export class ApiService {
 
   // 展示等待弹窗
   private showWait(waitMsg = "请稍候...") {
-    // TODO
-    // this.loadingStart(waitMsg);
+    this.loadingStart(waitMsg);
   }
 
   // 关闭等待弹窗
   public hideWait() {
-    // TODO
-    // this.loadingEnd();
+    this.loadingEnd();
   }
 
   // 请求成功
@@ -283,10 +283,10 @@ export class ApiService {
   private reqLog(response, data, status, url) {
     if (status === 'ok') {
       let reqType = data ? 'post' : 'get'
-      // this.log(`${reqType} ok`, url, `${data}`, JSON.stringify(response), response)
+      this.log(`${reqType} ok`, url, `${data}`, JSON.stringify(response), response)
     }
     else if (status === 'error') {
-      // this.warn('请求失败', url, data, response)
+      this.log('请求失败', url, data, response)
     }
   }
 

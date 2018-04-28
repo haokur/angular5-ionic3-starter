@@ -25,3 +25,4 @@ else if (ENV === 'production') {
 }
 
 export const API_ROOT = api_root
+export const UPLOAD_URL = ''

@@ -76,7 +76,7 @@ export class HaokurBasePage {
   // 结束加载 => 操作完成
   loadingEnd() {
     try {
-      this.loadingEntity.dismiss();
+      this.loadingEntity && this.loadingEntity.dismiss();
       this.loadingEntity = null;
       this.loadingActive = false;
     }
@@ -176,5 +176,13 @@ export class HaokurBasePage {
     if (this.toastCtrl) return this.toastCtrl;
     throw '请在实例中实现 initToastCtrl() 方法并返回一个 ToastController 实例;或者在 constructor 里实例化 toastCtrl';
   }
+
+  /**
+   * log打印信息,替代console.log,方便全局开关打印信息
+   */
+  log(...args) {
+    console.log.call(null, args);
+  }
+
 
 }
