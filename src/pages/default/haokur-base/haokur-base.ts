@@ -5,7 +5,6 @@ import { LOG_STATUS } from "../../../config";
  * page component 基类
  * 代理 ionic 的部分生命周期 , 类似 AOP 切面
  */
-
 export interface PageLoad {
   pageLoad: Function;
 }
@@ -98,14 +97,14 @@ export class HaokurBasePage {
    * @param title 弹窗标题
    * @param btn 弹窗按钮文字
    */
-  alert(message = "内容", title = "", btn = '确定') {
+  alert(subTitle = "内容", title = "", btnText = '确定') {
     return new Promise((resolve, reject) => {
       this.alertCtrl = this.initAlertCtrl();
       let _alertEntity = this.alertCtrl.create({
         title,
-        subTitle: message,
+        subTitle,
         buttons: [{
-          text: btn,
+          text: btnText,
         }],
       });
       _alertEntity.present();
