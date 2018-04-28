@@ -12,7 +12,7 @@ import {
 
 import jsonpService from 'jsonp';
 
-import { API_ROOT, REQUEST_HEADER, REQUEST_TIMEOUT } from "../config/constants";
+import { API_ROOT, REQUEST_HEADER, REQUEST_TIMEOUT, LOG_STATUS } from "../config/constants";
 import { HaokurBasePage } from "../pages/default/haokur-base/haokur-base";
 
 @Injectable()
@@ -281,12 +281,14 @@ export class ApiService extends HaokurBasePage {
 
   // 请求日志
   private reqLog(response, data, status, url) {
-    if (status === 'ok') {
-      let reqType = data ? 'post' : 'get'
-      this.log(`${reqType} ok`, url, `${data}`, JSON.stringify(response), response)
-    }
-    else if (status === 'error') {
-      this.log('请求失败', url, data, response)
+    if (LOG_STATUS) {
+      if (status === 'ok') {
+        let reqType = data ? 'post' : 'get'
+        this.log(`${reqType} ok`, url, `${data}`, JSON.stringify(response), response)
+      }
+      else if (status === 'error') {
+        this.log('请求失败', url, data, response)
+      }
     }
   }
 

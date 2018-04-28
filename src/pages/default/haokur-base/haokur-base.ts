@@ -1,4 +1,5 @@
 import { LoadingController, Loading, AlertController, ToastController } from "ionic-angular";
+import { LOG_STATUS } from "../../../config";
 
 /**
  * page component 基类
@@ -127,7 +128,7 @@ export class HaokurBasePage {
  */
   confirm(message = "内容", title = "") {
     return new Promise((resolve, reject) => {
-      let confirm = this.alertCtrl.create({
+      this.alertCtrl.create({
         title,
         message,
         buttons: [
@@ -181,7 +182,10 @@ export class HaokurBasePage {
    * log打印信息,替代console.log,方便全局开关打印信息
    */
   log(...args) {
-    console.log.call(null, args);
+    // console.log.apply(window, args);
+    if (LOG_STATUS) {
+      console.log.call(window, args);
+    }
   }
 
 

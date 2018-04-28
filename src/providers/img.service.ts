@@ -9,7 +9,7 @@ import { ActionSheetController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 
 import { UPLOAD_URL } from "../config/index";
-import { retry } from "rxjs/operator/retry";
+// import { retry } from "rxjs/operator/retry";
 
 import { HaokurBasePage } from "../pages/default/haokur-base/haokur-base";
 import { ApiService } from "./api.service";

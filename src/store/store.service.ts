@@ -2,7 +2,7 @@
  * 状态管理服务
  */
 import { Injectable } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { AppState } from './index';
 
 @Injectable()

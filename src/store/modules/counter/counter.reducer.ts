@@ -15,7 +15,7 @@ export function counterReducer(state: counterState = initCounterState, action: C
       return Object.assign(state, {
         num: state.num - 1
       })
-    case CounterTypes.DECREMENT:
+    case CounterTypes.RESET:
       return Object.assign(state, {
         num: 0
       })

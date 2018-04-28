@@ -2,7 +2,7 @@
 import { StoreModule } from '@ngrx/store'
 
 import { ICounter, counterReducer } from './modules/counter/counter'
-import { userReducer, userState, IUser } from './modules/user/user';
+import { userReducer, IUser } from './modules/user/user';
 
 // reducer 集合
 export const AppReducers = {

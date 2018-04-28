@@ -1,22 +1,29 @@
 import { Component } from "@angular/core";
-import { Store } from "@ngrx/store";
-import { AppState } from "../../../store";
 import { StoreService } from "../../../store/store.service";
+import { HaokurBasePage } from "../../default/haokur-base/haokur-base";
 
 @Component({
   selector: "test",
   templateUrl: "test.html"
 })
 
-export class TestPage {
+export class TestPage extends HaokurBasePage {
 
   count$;
 
   constructor(
-    private store:Store<AppState>,
-    private stateGetter:StoreService
+    private stateGetter: StoreService
   ) {
-    console.log('测试页面')
-    this.count$ = stateGetter.getShopCartNum$()
+    super();
   }
+
+  pageLoad() {
+    this.log('测试页面')
+    this.count$ = this.stateGetter.getShopCartNum$()
+  }
+
+  pageEnter() {
+    this.log('每次切入必现')
+  }
+
 }

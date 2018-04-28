@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { ApiService } from '../../providers/api.service';
 
 import { Store } from '@ngrx/store';
-import { Observable } from "rxjs/Rx";
 import { counterState, CounterTypes } from '../../store/modules/counter/counter';
 import { StoreService } from '../../store/store.service';
 import { HaokurBasePage, PageLoad, PageEnter } from '../default/haokur-base/haokur-base';
@@ -30,8 +29,8 @@ export class HomePage extends HaokurBasePage implements PageLoad, PageEnter {
     public toastCtrl: ToastController,
   ) {
     super();
-    this.count$ = stateGetter.getShopCartNum$()
-    this.userInfo$ = stateGetter.getUserInfo$()
+    this.count$ = this.stateGetter.getShopCartNum$()
+    this.userInfo$ = this.stateGetter.getUserInfo$()
   }
 
   pageLoad() {
@@ -62,7 +61,7 @@ export class HomePage extends HaokurBasePage implements PageLoad, PageEnter {
   }
 
   pageEnter() {
-    console.log('每次进入页面进入可视区域都将执行')
+    this.log('每次进入页面进入可视区域都将执行')
   }
 
   initLoadingCtrl() {
@@ -78,10 +77,10 @@ export class HomePage extends HaokurBasePage implements PageLoad, PageEnter {
       act: '4/news/latest'
     })
       .then(res => {
-        console.log(res)
+        this.log(res)
       })
       .catch(err => {
-        console.log(err)
+        this.log(err)
       })
   }
 
@@ -93,16 +92,16 @@ export class HomePage extends HaokurBasePage implements PageLoad, PageEnter {
         if (res.error === false) {
           this.imgList = res.results.map(item => item.url)
         }
-        console.log(this.imgList)
+        this.log(this.imgList)
         this.loadingEnd();
       })
       .catch(err => {
-        console.log(err)
+        this.log(err)
       })
   }
 
   increment() {
-    console.log(this.count$)
+    this.log(this.count$)
     this.store.dispatch({ type: CounterTypes.INCREMENT });
   }
 

@@ -26,3 +26,6 @@ else if (ENV === 'production') {
 
 export const API_ROOT = api_root
 export const UPLOAD_URL = ''
+
+// console.log 开关
+export const LOG_STATUS = false
