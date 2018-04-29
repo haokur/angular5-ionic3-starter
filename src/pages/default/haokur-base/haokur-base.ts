@@ -1,4 +1,4 @@
-import { LoadingController, Loading, AlertController, ToastController } from "ionic-angular";
+import { LoadingController, Loading, AlertController, ToastController, ActionSheetController } from "ionic-angular";
 import { LOG_STATUS } from "../../../config";
 
 /**
@@ -28,6 +28,8 @@ export class HaokurBasePage {
 
   toastCtrl: ToastController | any;
   toastActive: Boolean = false;
+
+  actionSheetCtrl: ActionSheetController | any;
 
   constructor() { }
 
@@ -187,5 +189,48 @@ export class HaokurBasePage {
     }
   }
 
+  /**
+   * actionSheet 自动补上 cancel
+   */
+  action(title, btnsConfig) {
+    this.actionSheetCtrl = this.initActionSheet()
+    let _actionSheet = this.actionSheetCtrl.create({
+      title,
+      buttons: [
+        ...btnsConfig,
+        {
+          text: '取消',
+          role: 'cancel',
+          handler: () => { }
+        }
+      ]
+    });
+    _actionSheet.present();
+  }
+
+  /**
+   * 选择图片通用 action
+   */
+  photoAction(callback, title = "上传图片") {
+    this.action(title, [
+      {
+        text: '拍照',
+        role: 'carame',
+        handler: () => { callback('carame') }
+      },
+      {
+        text: '从相册中选择',
+        role: 'album',
+        handler: () => { callback('album') }
+      }
+    ])
+  }
+
+  initActionSheet() {
+    if (this.actionSheetCtrl) {
+      return this.actionSheetCtrl
+    }
+    throw '请在实例中实现 initActionSheet() 方法并返回一个 ActionSheetController 实例;或者在 constructor 里实例化 actionSheetCtrl'
+  }
 
 }

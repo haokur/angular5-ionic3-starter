@@ -5,6 +5,10 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { ImagePicker } from '@ionic-native/image-picker';
+import { FileTransfer } from '@ionic-native/file-transfer';
+import { Crop } from '@ionic-native/crop';
+import { Camera } from '@ionic-native/camera';
 
 import { MyApp } from './app.component';
 import { APP_CONFIG } from '../config'
@@ -12,9 +16,14 @@ import { APP_CONFIG } from '../config'
 // users-module
 import { UsersModule } from './users-module'
 
+// users-service
+import { ApiService } from '../providers/api.service';
+import { StoreService } from '../store/store.service';
+import { ImgService } from '../providers/img.service';
+import { SocialService } from '../providers/social.service';
+
 // store
 import { STORE } from '../store/index'
-// console.log(STORE)
 
 @NgModule({
   declarations: [
@@ -34,6 +43,14 @@ import { STORE } from '../store/index'
   providers: [
     StatusBar,
     SplashScreen,
+    ApiService,
+    StoreService,
+    ImgService,
+    SocialService,
+    ImagePicker,
+    FileTransfer,
+    Crop,
+    Camera,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })

@@ -7,6 +7,7 @@ import { counterState, CounterTypes } from '../../store/modules/counter/counter'
 import { StoreService } from '../../store/store.service';
 import { HaokurBasePage, PageLoad, PageEnter } from '../default/haokur-base/haokur-base';
 import { LoadingController, AlertController, ToastController } from 'ionic-angular';
+import { ImgService } from '../../providers/img.service';
 
 @Component({
   selector: 'page-home',
@@ -27,6 +28,7 @@ export class HomePage extends HaokurBasePage implements PageLoad, PageEnter {
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
+    private imgService: ImgService,
   ) {
     super();
     this.count$ = this.stateGetter.getShopCartNum$()
@@ -34,7 +36,7 @@ export class HomePage extends HaokurBasePage implements PageLoad, PageEnter {
   }
 
   pageLoad() {
-    this.loadingStart()
+    // this.loadingStart()
     this.dateNow = new Date()
 
     this.getZhihuTest()
@@ -61,7 +63,7 @@ export class HomePage extends HaokurBasePage implements PageLoad, PageEnter {
   }
 
   pageEnter() {
-    this.log('每次进入页面进入可视区域都将执行')
+    console.log('每次进入页面进入可视区域都将执行')
   }
 
   initLoadingCtrl() {
@@ -77,10 +79,10 @@ export class HomePage extends HaokurBasePage implements PageLoad, PageEnter {
       act: '4/news/latest'
     })
       .then(res => {
-        this.log(res)
+        console.log(res)
       })
       .catch(err => {
-        this.log(err)
+        console.log(err)
       })
   }
 
@@ -92,16 +94,16 @@ export class HomePage extends HaokurBasePage implements PageLoad, PageEnter {
         if (res.error === false) {
           this.imgList = res.results.map(item => item.url)
         }
-        this.log(this.imgList)
+        console.log(this.imgList)
         this.loadingEnd();
       })
       .catch(err => {
-        this.log(err)
+        console.log(err)
       })
   }
 
   increment() {
-    this.log(this.count$)
+    console.log(this.count$)
     this.store.dispatch({ type: CounterTypes.INCREMENT });
   }
 
@@ -113,6 +115,20 @@ export class HomePage extends HaokurBasePage implements PageLoad, PageEnter {
     this.store.dispatch({ type: CounterTypes.RESET });
   }
 
+  showChoosePicAction() {
+    this.imgService.packAllProcess({
+      maximumImagesCount: 1,
+      quality: 25,
+    }, (tempUrl, type) => {
+      console.log(tempUrl, type)
+    })
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 
 
 }

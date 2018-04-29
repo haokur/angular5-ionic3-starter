@@ -12,7 +12,7 @@
   <p>{{dateNow|dateFormat:'yyyy年MM月dd hh时mm分ss秒'}}</p>
   <p>{{'2017-01-28'|dateFormat:'yyyy年MM月dd hh时mm分ss秒'}}</p>
  -->
- {{dateNow|dateFormat:'yyyy-MM-dd hh:mm:ss'}}
+  {{dateNow|dateFormat:'yyyy-MM-dd hh:mm:ss'}}
 
   <div highlight>click 高亮</div>
 
@@ -30,9 +30,15 @@
     <hello-world [userInfo]="userInfo$|async"></hello-world>
   </div>
 
+  <div>
+    <button ion-button (click)="showChoosePicAction()">图片上传</button>
+  </div>
+
   <ul>
     <li *ngFor="let item of imgList">
       <img [src]="item" alt="">
     </li>
   </ul>
+
+
 </ion-content>

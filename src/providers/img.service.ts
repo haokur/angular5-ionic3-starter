@@ -1,11 +1,11 @@
 /**
  * 图片上传封装
+ * 整个套装流程 : actionSheet 弹出选择何种形式(拍照和相册) => 选择图片 => 裁剪图片 => 上传图片
  */
 import { Injectable } from "@angular/core";
 import { ImagePicker } from '@ionic-native/image-picker';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { Crop } from '@ionic-native/crop';
-import { ActionSheetController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 
 import { UPLOAD_URL } from "../config/index";
@@ -13,12 +13,23 @@ import { UPLOAD_URL } from "../config/index";
 
 import { HaokurBasePage } from "../pages/default/haokur-base/haokur-base";
 import { ApiService } from "./api.service";
+import { ActionSheetController } from "ionic-angular";
+
+// 配置项
+export interface imgOptions {
+
+  maximumImagesCount?: number, // 选择图片的最大个数，默认1张
+  quality?: number, // 默认图片质量为25%
+
+  cropWidth?: number, // 要裁剪的目标宽度
+  cropHeight?: number, // 要裁剪的目标高度
+}
 
 @Injectable()
 export class ImgService extends HaokurBasePage {
 
   /**
-   * 默认图片选择配置
+   * 默认相册图片选择配置
    */
   defaultChooseImageOptions = {
     maximumImagesCount: 1, // 选择图片的最大个数，默认1张
@@ -37,88 +48,84 @@ export class ImgService extends HaokurBasePage {
     super()
   }
 
-  /**
-   * 选择图片
-   */
-  chooseImage(chooseImageOptions, cb = null, title = '') {
-    let curChooseImageOptions = {
-      ...this.defaultChooseImageOptions,
-      ...chooseImageOptions
-    }
-    let that = this;
-    if (curChooseImageOptions.sourceType.length == 2) {
-      // 从相册和拍照选图片
-      this.showActionSheet(title, function (isCamera) {
-        if (isCamera) {
-          that.openCamera().then((tempUrl) => {
-            cb([tempUrl]);
-          });
-        } else {
-          return that.openImgPicker(curChooseImageOptions).then((tempUrls) => {
-            cb(tempUrls);
+  // 打包整个流程,选择到上传, 因为集成了裁剪所以最大选择数是1
+  packAllProcess(options: imgOptions = {}, tempUrlCb = null) {
+    return new Promise((resolve, reject) => {
+
+      // actionSheet 选择选取图片方式
+      this.photoAction((type) => {
+        // debugger
+
+        // 选取图片
+        this.pick(type, options)
+          .then((tempUrls) => {
+            let _usageTempUrl = tempUrls[0]
+            tempUrlCb && tempUrlCb(_usageTempUrl, 'pick')
+
+            // 裁剪图片
+            let { cropWidth, cropHeight } = options
+            return this.cropImage(_usageTempUrl, cropWidth, cropHeight)
           })
-        }
-      })
-    } else if (curChooseImageOptions.sourceType[0] == "album") {
-      // 从相册选图片
-      return that.openImgPicker(curChooseImageOptions).then((tempUrls) => {
-        cb(tempUrls);
-      })
-    } else {
-      // 拍照
-      that.openCamera().then((tempUrl) => {
-        cb([tempUrl]);
-      });
+          .then(cropTempUrl => {
+
+            tempUrlCb && tempUrlCb(cropTempUrl, 'crop')
+            // 上传图片
+            return this.uploadFile(cropTempUrl)
+          })
+          .then(uploadRes => {
+
+            // 整个流程完成,返回上传到服务器后的结果
+            resolve(uploadRes);
+          })
+          .catch(err => {
+            throw err;
+          })
+      }, '上传图片')
+    })
+  }
+
+  pick(type, options = {}) {
+    if (type === 'carame') {
+      return this.openCamera(options);
+    }
+    else if (type === 'album') {
+      return this.pickAlbumImg(options);
     }
   }
 
   /**
-   * 弹出照片来源选择框
+   * 从图库中选择, 返回的 promise 的参数为选择后的图片数组
    */
-  showActionSheet(title, cb) {
-    let actionSheet = this.actionSheetCtrl.create({
-      title: title,
-      buttons: [
-        {
-          text: '拍照',
-          handler: () => {
-            cb(true)
-          }
-        },
-        {
-          text: '从手机相册选择',
-          handler: () => {
-            cb(false)
-          }
-        },
-        {
-          text: '取消',
-          role: 'cancel',
-          handler: () => { }
-        }
-      ]
-    });
-    actionSheet.present();
+  pickAlbumImg(options = {}) {
+    let _curChooseImageOptions = {
+      ...this.defaultChooseImageOptions,
+      ...options
+    }
+    return this.openImgPicker(_curChooseImageOptions)
   }
 
   /**
    * 拍照
+   * 返回的 promise 的参数为拍照后的地址并组装成数组和 pickAlbumImg 保持统一返回格式
    */
-  openCamera() {
-    let options: CameraOptions = {
+  openCamera(options = {}) {
+    let _carameOptions: CameraOptions = {
       quality: 25,
       destinationType: this.camera.DestinationType.FILE_URI,
       encodingType: this.camera.EncodingType.JPEG,
       sourceType: 1,
       mediaType: this.camera.MediaType.PICTURE,
+      ...options,
     }
-    return this.camera.getPicture(options);
+    return this.camera.getPicture(_carameOptions)
+      .then((tempUrl: String) => Promise.resolve([tempUrl]));
   }
 
   /**
    * 从相册选取照片
    */
   openImgPicker(options) {
+    console.log('从相册选取图片')
     return this.imagePicker.getPictures(options)
   }
 
@@ -126,10 +133,10 @@ export class ImgService extends HaokurBasePage {
    * 裁剪图片
    * @param tempUrl 
    */
-  cropImage(tempUrl, crop_width = 320, crop_height = 320) {
+  cropImage(tempUrl, cropWidth = 320, cropHeight = 320) {
     return this.crop.crop(tempUrl, {
-      targetWidth: crop_width,
-      targetHeight: crop_height,
+      targetWidth: cropWidth,
+      targetHeight: cropHeight,
       quality: 25,
     })
   }
@@ -138,6 +145,7 @@ export class ImgService extends HaokurBasePage {
    * 上传单张图片
    */
   uploadFile(tempUrl, userOptions = {}) {
+    console.log('上传图片的地址为:', tempUrl)
     // if (!tempUrl) { return false }
     let _fileExt = this.getFileExt(tempUrl)
 
@@ -153,6 +161,7 @@ export class ImgService extends HaokurBasePage {
     }
 
     Object.assign(fileUploadOptions, userOptions)
+    console.log('上传参数为:', JSON.stringify(fileUploadOptions))
     return fileTransfer.upload(tempUrl, UPLOAD_URL, fileUploadOptions);
   }
 
@@ -184,9 +193,7 @@ export class ImgService extends HaokurBasePage {
               resolve(_allResult)
             }
           })
-          .catch((err) => {
-            // console.log('上传失败')
-            // console.log(err)
+          .catch((err = '上传失败') => {
             let _neededResult = {
               status: 500,
               url: null,
@@ -213,7 +220,7 @@ export class ImgService extends HaokurBasePage {
     if (fileExtData && fileExtData.length) {
       _fileExt = fileExtData[0];
     }
-    // this.log('文件名' + _fileExt);
+    // console.log('文件名' + _fileExt);
     return _fileExt
   }
 

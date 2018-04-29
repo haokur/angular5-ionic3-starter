@@ -25,6 +25,7 @@ else if (ENV === 'production') {
 }
 
 export const API_ROOT = api_root
+// 图片上传地址
 export const UPLOAD_URL = ''
 
 // console.log 开关
