@@ -24,6 +24,13 @@ import { SocialService } from '../providers/social.service';
 
 // store
 import { STORE } from '../store/index'
+import { ENV } from '../config/env';
+
+// 开启 mock 数据模拟
+import { MockServer } from '../mock/mock'
+if (ENV==='development') {
+  MockServer.bootstrap();
+}
 
 @NgModule({
   declarations: [

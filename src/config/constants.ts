@@ -1,8 +1,4 @@
-declare var process;
-
-process.env.NODE_ENV = 'devlopment'
-
-const ENV = process.env.NODE_ENV
+import { ENV } from "./env";
 
 // 请求超时时间,单位为毫秒
 export const REQUEST_TIMEOUT = 15000;
@@ -30,3 +26,6 @@ export const UPLOAD_URL = ''
 
 // console.log 开关
 export const LOG_STATUS = false
+
+// mock 数据开关, 统一配置(这里)优于用户数据里的配置,便于统一控制
+export const MOCK_ENABLE = true

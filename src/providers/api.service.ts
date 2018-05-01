@@ -12,8 +12,10 @@ import {
 
 import jsonpService from 'jsonp';
 
-import { API_ROOT, REQUEST_HEADER, REQUEST_TIMEOUT, LOG_STATUS } from "../config/constants";
+import { API_ROOT, REQUEST_HEADER, REQUEST_TIMEOUT, LOG_STATUS, MOCK_ENABLE } from "../config/constants";
 import { HaokurBasePage } from "../pages/default/haokur-base/haokur-base";
+
+import axios from 'axios'
 
 @Injectable()
 export class ApiService extends HaokurBasePage {
@@ -22,7 +24,7 @@ export class ApiService extends HaokurBasePage {
   public navCtrl: any;
 
   // 请求体忽略参数
-  private reqIgnore = ['act', '_withToken', '_withWait']
+  private reqIgnore = ['act', '_withToken', '_withWait', '_disableMock']
 
   constructor(
     public http: Http,
@@ -122,8 +124,8 @@ export class ApiService extends HaokurBasePage {
         return this.http[type](url, format_data, _header)
           .timeout(REQUEST_TIMEOUT)
           .toPromise()
-          .then(res => this.handleSuccess(res, format_data, url))
-          .catch(err => this.handleError(err, format_data, url));
+          .then(res => this.handleSuccess(res, data, url))
+          .catch(err => this.handleError(err, data, url, type));
       })
   }
 
@@ -220,8 +222,9 @@ export class ApiService extends HaokurBasePage {
     return new Promise((resolve, reject) => {
       let url = this.getRealReqUrl(reqData)
       let format_data = this.glueData(reqData)
+
       // 如果是get请求,将数据拼在地址后面,清空data
-      if (type === 'get') {
+      if (type === 'get' && format_data) {
         url = `${url}?${format_data}`
         format_data = null
       }
@@ -267,16 +270,31 @@ export class ApiService extends HaokurBasePage {
   }
 
   // 请求错误回调
-  private handleError(error, data, url) {
+  private handleError(error, data, url, type) {
     this.hideWait();
     // 日志
     this.reqLog(error, data, 'error', url)
-    // 自定义重新登录错误
-    if (error == "请重新登录") {
-      return Promise.reject(error);
-    } else {
-      return Promise.reject("请求出错");
+    console.log(data)
+    if (MOCK_ENABLE && !data._disableMock) {
+      return this.handleErrorMock(data, url, type)
     }
+    else {
+      // 自定义重新登录错误
+      if (error == "请重新登录") {
+        return Promise.reject(error);
+      } else {
+        return Promise.reject("请求出错");
+      }
+    }
+  }
+
+  // 在请求失败的时候,尝试数据模拟
+  private handleErrorMock(data, url, type) {
+    // this.log('进入数据模拟', type, url)
+    return axios[type](url)
+      .then(res => {
+        return Promise.resolve(res.data)
+      })
   }
 
   // 请求日志

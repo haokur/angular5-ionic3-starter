@@ -9,6 +9,8 @@ import { HaokurBasePage, PageLoad, PageEnter } from '../default/haokur-base/haok
 import { LoadingController, AlertController, ToastController } from 'ionic-angular';
 import { ImgService } from '../../providers/img.service';
 
+import axios from 'axios'
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -60,10 +62,36 @@ export class HomePage extends HaokurBasePage implements PageLoad, PageEnter {
     //     console.log('取消')
     //   })
 
+    // axios.get('/user/list')
+    //   .then(res => {
+    //     console.log(res)
+    //   })
+    //   .catch(err => {
+    //     console.log(err)
+    //   })
+
+    this.api.get({
+      act: 'user/list',
+      page: 1,
+      // _disableMock:true,
+    })
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
+    this.api.post({
+      act: 'user/add'
+    })
+      .then(res => {
+        console.log(res)
+      })
   }
 
   pageEnter() {
-    console.log('每次进入页面进入可视区域都将执行')
+    // console.log('每次进入页面进入可视区域都将执行')
   }
 
   initLoadingCtrl() {
@@ -79,7 +107,7 @@ export class HomePage extends HaokurBasePage implements PageLoad, PageEnter {
       act: '4/news/latest'
     })
       .then(res => {
-        console.log(res)
+        // console.log(res)
       })
       .catch(err => {
         console.log(err)
@@ -94,7 +122,7 @@ export class HomePage extends HaokurBasePage implements PageLoad, PageEnter {
         if (res.error === false) {
           this.imgList = res.results.map(item => item.url)
         }
-        console.log(this.imgList)
+        // console.log(this.imgList)
         this.loadingEnd();
       })
       .catch(err => {
