@@ -9,14 +9,14 @@ export const MockServer = {
     allMockConfigList.forEach(item => {
       let _method = item.method
       item.list.forEach(reqItem => {
-        MockAdpapterObj[_method](this._getReqUrl(reqItem.url)).reply(config => this.success(reqItem.data))
+        MockAdpapterObj[_method](this._getReqUrl(reqItem.url)).reply(config => this.success(reqItem))
       })
     })
   },
   _getReqUrl(url) {
     return typeof url === 'string' ? new RegExp(url) : url;
   },
-  success(data) {
+  success({ data, url }) {
     return this.wait()
       .then(() => {
         return Promise.resolve([
@@ -24,7 +24,8 @@ export const MockServer = {
           {
             code: 1,
             msg: '[模拟数据] 操作成功',
-            data
+            data,
+            url,
           }
         ])
       });

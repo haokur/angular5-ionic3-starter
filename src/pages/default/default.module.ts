@@ -1,10 +1,10 @@
 import { NgModule } from "@angular/core";
 import { IonicPageModule, IonicModule } from "ionic-angular";
 
-import { TabBarPage } from "../../pages/default/tab-bar/tab-bar";
+import { TabBarPage } from "./tab-bar/tab-bar";
 
 const Pages = [
-  TabBarPage
+  TabBarPage,
 ]
 
 @NgModule({

@@ -14,7 +14,7 @@ import { MyApp } from './app.component';
 import { APP_CONFIG } from '../config'
 
 // users-module
-import { UsersModule } from './users-module'
+import { UsersModule } from '../pages/users.module';
 
 // users-service
 import { ApiService } from '../providers/api.service';

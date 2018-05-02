@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
+import { LoadingController, AlertController, ToastController } from 'ionic-angular';
 
-import { ApiService } from '../../providers/api.service';
+import { HaokurBasePage, PageLoad, PageEnter } from '../../default/haokur-base/haokur-base';
+
+import { ApiService } from '../../../providers/api.service';
+import { ImgService } from '../../../providers/img.service';
 
 import { Store } from '@ngrx/store';
-import { counterState, CounterTypes } from '../../store/modules/counter/counter';
-import { StoreService } from '../../store/store.service';
-import { HaokurBasePage, PageLoad, PageEnter } from '../default/haokur-base/haokur-base';
-import { LoadingController, AlertController, ToastController } from 'ionic-angular';
-import { ImgService } from '../../providers/img.service';
-
-import axios from 'axios'
+import { counterState, CounterTypes } from '../../../store/modules/counter/counter';
+import { StoreService } from '../../../store/store.service';
 
 @Component({
   selector: 'page-home',
@@ -131,7 +130,6 @@ export class HomePage extends HaokurBasePage implements PageLoad, PageEnter {
   }
 
   increment() {
-    console.log(this.count$)
     this.store.dispatch({ type: CounterTypes.INCREMENT });
   }
 

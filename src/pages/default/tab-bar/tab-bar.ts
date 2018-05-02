@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 
-import { HomePage } from "../../home/home";
 import { TestPage } from "../../haokur/test/test";
+import { HomePage } from "../../someone/home/home";
 
 @Component({
   selector: "tab-bar",
