@@ -15,6 +15,11 @@ npm install
 npm start
 ```
 
+## 预览
+![预览图1](https://raw.githubusercontent.com/haokur/static/master/angular5-ionic3-starter/screenshots/demo1.png)
+
+<!-- https://raw.githubusercontent.com/haokur/static/master/angular5-ionic3-starter/css/main.css -->
+
 ## 测试api
 
 - [知乎日报api](https://github.com/izzyleung/ZhihuDailyPurify/wiki/知乎日报-API-分析)
