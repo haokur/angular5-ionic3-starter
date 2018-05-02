@@ -10,8 +10,8 @@ import pexpect
 
 app_name = 'MyApp'
 apk_name = 'MyApp'
-android_key_name = ''
-jarsigner_password = ''
+android_key_name = 'haokur-ionic.keystore' # keystore 的名字
+jarsigner_password = 'haokur'  # 生成 keystore 时输入的密码
 project_dir = '~/code/ng5-ionic3-starter'
 
 # 打印信息
@@ -20,7 +20,7 @@ def printStep(str):
 
 #源代码webpack打包(web版)
 def buildWeb():
-    build_commond = 'npm run ionic:build --prod'
+    build_commond = 'npm run build --prod'
     # print sys.argv
     # print sys.argv[2]
     # 如果第三个参数等于--skipweb,则跳过webpack打包
@@ -42,7 +42,6 @@ def buildAndroid():
     os.system(rm_origin_commond)
 
     child = pexpect.spawn('jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore '+android_key_name+' platforms/android/build/outputs/apk/android-release-unsigned.apk '+apk_name)
-    # jarsigner_password = 'qunen17yangyu'
 
     child.expect('输入密钥库的密码短语:')
     child.sendline (jarsigner_password)
