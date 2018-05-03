@@ -112,6 +112,116 @@ cordova build ios
 └── zipalign                              # zipalign 压缩和优化 android 打包
 ```
 
+## 码代码
+
+- 命令行工具使用
+
+```
+node g page test   # 在 src/pages/[用户] 下生成一个 test 页面,首次使用会需要输入用户名(English)初始化配置
+```
+
+- 继承 HaokurBasePage 的基本使用
+> 基于 ionic 上层扩展,代理 ionic 部分生命周期,方便不同页面切换同样操作的统一切入
+
+```javascript
+
+// 视图首次载入执行(仅执行一次)
+pageLoad(){}
+
+// 视图每次 Active 时执行
+pageEnter(){}
+
+// 视图卸载前执行(定时器清理等)
+pageUnload(){}
+
+/**
+ * 其他工具方法
+ */
+// 普通弹窗,仅确认按钮
+this.alert('弹窗内容')
+
+// 确认弹窗, 取消+确认
+this.confirm()
+  .then(()=>{console.log('确认')})
+  .catch(()=>{console.log('取消')})
+
+// 气泡提示信息
+this.toast('气泡提示内容');
+
+// 底部 actionSheet
+this.action('可选项',[
+  {
+    text:'可选项1',
+    handler:()=>{console.log('可选项1被点击')}
+  }
+])
+```
+
+- http 请求使用
+> **src/providers/api.services.ts** 引入 Apiservice,  依赖 **src/config/constants.ts** 定义的请求的基本地址和 **/ionic.config.json** 的代理配置
+  - 引入 ApiService
+```javascript
+import { ApiService } from '../../../providers/api.service';
+constructor(
+  private api:ApiService
+){
+
+}
+```
+  - 请求根地址配置
+```javascript
+if (ENV === 'devlopment') {
+  api_root = "https://dev.com";
+}
+else if (ENV === 'production') {
+  api_root = "https://prod.com";
+}
+export const API_ROOT = api_root
+```
+
+  - 代理配置
+```javascript
+"proxies": [
+  {
+    "path": "/zhi",
+    "proxyUrl": "https://xxx.com/api/"
+  }
+],
+```
+```javascript
+// get 请求,根据配置信息拼接请求地址
+this.api.get({
+  act:'test',
+  page:1, // 其他参数
+})
+.then(res=>{
+  console.log('成功返回',res)
+})
+.catch(err=>{
+  console.log('请求失败')
+})
+// 以上完整的 get 请求地址为 https://dev.com/test?page=1
+
+// 或传入完整地址
+this.api.get({
+  act:'https://something.com/test',
+  page:1, // 其他参数
+})
+.then(res=>{
+  console.log('成功返回',res)
+})
+.catch(err=>{
+  console.log('请求失败')
+})
+// 以上完整的 get 请求地址为 https://something.com/test?page=1
+
+// post 同上
+this.api.post({act:'test'})
+```
+
+- 等等等
+
+
 ## 测试api
 
 - [知乎日报api](https://github.com/izzyleung/ZhihuDailyPurify/wiki/知乎日报-API-分析)
