@@ -10,10 +10,13 @@ const Pages = [
 @NgModule({
   imports: [
     IonicModule,
-    IonicPageModule.forChild(TabBarPage),
   ],
-  exports: [...Pages],
-  declarations: [...Pages],
+  declarations: [
+    ...Pages,
+  ],
+  entryComponents: [
+    ...Pages,
+  ],
   providers: []
 })
 

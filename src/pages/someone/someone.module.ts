@@ -17,10 +17,13 @@ const Pages = [
     ComponentsModule,
     DirectivesModule,
     PipesModule,
-    IonicPageModule.forChild(HomePage),
   ],
-  exports: [...Pages],
-  declarations: [...Pages],
+  declarations: [
+    ...Pages,
+  ],
+  entryComponents: [
+    ...Pages,
+  ],
   providers: []
 })
 
