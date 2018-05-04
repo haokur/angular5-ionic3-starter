@@ -168,7 +168,7 @@ constructor(
 
 }
 ```
-  - 请求根地址配置
+  - 请求根地址配置 (constants.ts)
 ```javascript
 if (ENV === 'devlopment') {
   api_root = "https://dev.com";
@@ -179,7 +179,7 @@ else if (ENV === 'production') {
 export const API_ROOT = api_root
 ```
 
-  - 代理配置
+  - 代理配置 (ionic.config.json)
 ```javascript
 "proxies": [
   {
@@ -217,6 +217,101 @@ this.api.get({
 
 // post 同上
 this.api.post({act:'test'})
+```
+
+- 图片选择裁剪上传服务 (src/providers/img.service.ts)
+```ts
+// 一条龙(action 选择图片类型 + 裁剪 + 上传)
+this.imgService.packAllProcess({
+  maximumImagesCount: 1,
+  quality: 25,
+}, (tempUrl, type) => {
+  // 选择图片,裁剪图片都会有回调
+  console.log(tempUrl, type)
+})
+  .then(res => {
+    console.log(res)
+  })
+  .catch(err => {
+    console.log(err)
+  })
+
+// 自由拆开组装
+// 如: 选择多张 + 提交
+this.imgService.pick('album',{
+  maximumImagesCount: 5,
+})
+  .then(tempUrls=>{
+    return this.imgService.uploadImgs(tempUrls,{},res=>{
+      console.log('单张图片上传完成回调');
+    })
+  })
+  .then(res=>{
+    console.log('全部上传完成');
+  })
+```
+
+- qq,微博,微信登录和分享 (src/providers/social.service.ts)
+```ts
+// 三端分享统一配置,略微差别
+var shareConfig = {
+  url: 'http://qunen.kuaimacode.com/wap/', // 必选 分享的链接地址
+  title: '这个是 Cordova QQ 新闻分享的标题', // 必选 分享的标题 
+  description: '这个是 Cordova QQ 新闻分享的描述', // 必选 分享的描述
+  image: 'https://cordova.apache.org/static/img/cordova_bot.png', // 必选 分享的图片
+  scene = 1, // 微信可选 0=>好友(默认),1=>朋友圈
+  media_type:Wechat.Type.LINK, // 微信可选
+}
+// type 为平台: qq, wechat,weibo , shareConfig 为分享配置
+this.socialService.share(type, shareConfig)
+  .then(res => {
+    this.successCallback()
+  })
+  .catch(err => {
+    this.failCallback(err)
+  })
+
+// 三端的登录
+this.socialService.loginByWeibo().then(res=>{});
+this.socialService.loginByQQ().then(res=>{});
+this.socialService.loginByWechat().then(res=>{});
+```
+
+- 页面级(pages 目录下)基本知识
+
+  - 基本结构
+```ts
+@Component({
+  selector:'page-example',     //  扩展的 html 的标签名字,页面只是相对较大的组件
+  templateUrl: 'example.html', // 引入的 html 模板
+})
+
+export class ExamplePage {
+
+}
+```
+
+  - html 中常用
+```html
+<!-- 循环 -->
+<ul>
+  <li *ngFor="let item of list;let i = index;">索引{{index}}-内容{{item}}</li>
+</ul>
+
+<!-- 判断 -->
+<!-- ts中 this.showFlag=true -->
+<div *ngIf="showFlag">showFlag为true才显示的内容</div>
+
+<!-- 事件绑定 -->
+<button (click)="doSomething()">点击事件</button>
+
+<!-- 属性传递 -->
+<!-- ts中 this.imgUrl='http://img.com/2.jpg'; this.helloWorldInfo={'name':'xx'} -->
+<img [src]="'http://img.com/1.jpg'">
+<img [src]="imgUrl">
+<hello-world [info]="helloWorldInfo"></hello-world>
+<div [ngClass]="{'active':true}"></div>
+
 ```
 
 - 等等等
